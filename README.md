@@ -11,6 +11,15 @@ Downloads audio files 10 at a time; currently non-configurable.
 
 Downloads file to the current working directory.
 
+# Setup
+
+## Install `python` version 3.
+If on Windows, make sure to check the checkbox to install Python into the PATH.
+
+## Install [pytube](https://pytube.io/en/latest/)
+Once `python` is installed, open a command line/terminal and run the command `pip install pytube` 
+(might be `pip3 install pytube`, depending on what's installed - if `pip3` is available, use that instead of `pip`).
+
 # Usage
 
 On Linux, Unix, and macOS, make the file executable (`chmod +x youtube2mp3.py`) and run it on the command line:
@@ -18,12 +27,10 @@ On Linux, Unix, and macOS, make the file executable (`chmod +x youtube2mp3.py`) 
 ./youtube2mp3.py <YouTube URL> ...
 ```
 
-On all operating systems, run it on the command line using `python3`:
+On all operating systems, run it on the command line using `python3` (or `python`, depending on your installation - make sure you'e running Python 3 either way):
 ```
 python3 youtube2mp3.py <YouTube URL> ...
 ```
 
 # TODO
-- make sure that all playlist URLs are identified (they may not always contain "`playlist?`")
-- Add commandline option to change how many files are downloaded at once
-- Add commandline option for a target download directory
+See [Issues](https://github.com/peterguy/youtubetomp3/issues)
