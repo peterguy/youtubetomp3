@@ -16,27 +16,42 @@ Downloads file to the current working directory.
 ## Install `python` version 3.
 If on Windows, make sure to check the checkbox to install Python into the PATH.
 
-## Setup environment
+## Setup environment (once)
 ```
 python3 -m venv .venv
+```
+
+## activate environment (each new terminal)
+```
 source .venv/bin/activate
 ```
 
-## Install [pytubefix](https://github.com/JuanBindez/pytubefix)
+## Install [pytubefix](https://github.com/JuanBindez/pytubefix) and pyinstaller (to make executable)
 ```
-pip install pytubefix
+pip install pytubefix pyinstaller
+```
+
+## Generate executable
+```
+python -m PyInstaller --onefile --name youtube2mp3 youtube2mp3.py
+```
+
+## Copy executable into PATH
+Depends on your setup; using `~/.local/bin` here
+```
+cp dist/youtube2mp3 ~/.local/bin
 ```
 
 # Usage
 
-On Linux, Unix, and macOS, make the file executable (`chmod +x youtube2mp3.py`) and run it on the command line:
+On Linux, Unix, and macOS, use the executable:
 ```
-./youtube2mp3.py <YouTube URL> ...
+youtube2mp3 <YouTube URL> ...
 ```
 
-On all operating systems, run it on the command line using `python3` (or `python`, depending on your installation - make sure you'e running Python 3 either way):
+On all operating systems, run it on the command line using `python`:
 ```
-python3 youtube2mp3.py <YouTube URL> ...
+python youtube2mp3.py <YouTube URL> ...
 ```
 
 # TODO
