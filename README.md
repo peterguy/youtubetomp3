@@ -1,7 +1,7 @@
 # youtubetomp3
 Python program to download audio from YouTube video URLs
 
-Wrapper around the [pytube](https://pytube.io/) library to download audio from YouTube videos.
+Wrapper around the [pytubefix](https://github.com/JuanBindez/pytubefix) library to download audio from YouTube videos.
 
 Prefers the non-progressive `mp4` audio stream. If that is not available, tries `mp3`, and then whatever audio stream is available (perhaps `webm`).
 
@@ -16,9 +16,16 @@ Downloads file to the current working directory.
 ## Install `python` version 3.
 If on Windows, make sure to check the checkbox to install Python into the PATH.
 
-## Install [pytube](https://pytube.io/en/latest/)
-Once `python` is installed, open a command line/terminal and run the command `pip install pytube` 
-(might be `pip3 install pytube`, depending on what's installed - if `pip3` is available, use that instead of `pip`).
+## Setup environment
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+## Install [pytubefix](https://github.com/JuanBindez/pytubefix)
+```
+pip install pytubefix
+```
 
 # Usage
 

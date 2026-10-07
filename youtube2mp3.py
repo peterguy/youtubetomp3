@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from pytube import YouTube
-from pytube import Playlist
+from pytubefix import YouTube
+from pytubefix import Playlist
 import os
 import sys
 import concurrent.futures
