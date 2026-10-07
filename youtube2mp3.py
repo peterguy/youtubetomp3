@@ -2,7 +2,6 @@
 
 from pytubefix import YouTube
 from pytubefix import Playlist
-import os
 import sys
 import concurrent.futures
 
@@ -23,18 +22,34 @@ def download_audio(url):
 			out_file = s.first().download()
 		else:
 			s = yt.streams.filter(only_audio=True).first()
-			if s.first():
-				out_file = s.first().download()
+			if s:
+				out_file = s.download()
 
 	if out_file:
 		print(f"'{yt.title}' has been downloaded to '{out_file}'")
 	else:
 		print(f"unable to download {yt.title}")
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:	
-	for arg in sys.argv[1:]:
-		if "playlist?" in arg:
-			playlist = Playlist(str(arg))
-			pool.map(download_audio, playlist.video_urls)
-		else:
-			pool.submit(download_audio, arg)
+def main(args):
+	failed = False
+	with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
+		futures = {}
+		for arg in args:
+			if "playlist?" in arg:
+				playlist = Playlist(str(arg))
+				urls = playlist.video_urls
+			else:
+				urls = [arg]
+			for url in urls:
+				futures[pool.submit(download_audio, url)] = url
+		for future in concurrent.futures.as_completed(futures):
+			try:
+				future.result()
+			except Exception as exc:
+				failed = True
+				print(f"unable to download {futures[future]}: {exc}", file=sys.stderr)
+	return 1 if failed else 0
+
+
+if __name__ == "__main__":
+	sys.exit(main(sys.argv[1:]))
