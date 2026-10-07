@@ -54,5 +54,14 @@ On all operating systems, run it on the command line using `python`:
 python youtube2mp3.py <YouTube URL> ...
 ```
 
+Use `youtube2mp3 --help` (or `python youtube2mp3.py --help`) for usage information.
+Quote URLs, especially when they contain `&`:
+```
+youtube2mp3 "https://www.youtube.com/watch?v=VIDEO_ID"
+```
+
+Note that although the name of this project is "youtube2mp3", it downloads audio in mp4 by preference, mp3 if no mp4, and then whatever format is available - the program does not convert it to mp3.
+Exit status is `0` on success, `1` if any download or playlist fails, and `2` for invalid command-line arguments (including supplying no URLs).
+
 # TODO
 See [Issues](https://github.com/peterguy/youtubetomp3/issues)

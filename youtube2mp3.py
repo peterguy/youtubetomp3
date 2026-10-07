@@ -4,6 +4,7 @@ from pytubefix import YouTube
 from pytubefix import Playlist
 import sys
 import concurrent.futures
+import argparse
 
 def download_audio(url):
 	print("downloading audio from " + url)
@@ -28,16 +29,30 @@ def download_audio(url):
 	if out_file:
 		print(f"'{yt.title}' has been downloaded to '{out_file}'")
 	else:
-		print(f"unable to download {yt.title}")
+		raise RuntimeError(f"no audio downloaded for '{yt.title}' (no available audio stream or output file)")
 
-def main(args):
+def main(args=None):
+	parser = argparse.ArgumentParser(
+		description="Download audio from YouTube videos or playlists to the current directory.",
+		epilog='Keeps the original audio format; does not convert to mp3. '
+		       'Quote URLs containing shell characters such as &. '
+		       'Example: %(prog)s "https://www.youtube.com/watch?v=VIDEO_ID"',
+	)
+	parser.add_argument("urls", metavar="URL", nargs="+", help="YouTube video or playlist URL")
+	options = parser.parse_args(args)
 	failed = False
 	with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
 		futures = {}
-		for arg in args:
+		for arg in options.urls:
 			if "playlist?" in arg:
-				playlist = Playlist(str(arg))
-				urls = playlist.video_urls
+				try:
+					urls = list(Playlist(str(arg)).video_urls)
+					if not urls:
+						raise RuntimeError("playlist contains no available videos")
+				except Exception as exc:
+					failed = True
+					print(f"unable to load playlist {arg}: {exc}", file=sys.stderr)
+					continue
 			else:
 				urls = [arg]
 			for url in urls:
